@@ -232,7 +232,7 @@ export default function RegisterPage() {
 
         <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
           <CardHeader className="space-y-1 pb-6">
-            <CardTitle className="text-2xl font-bold text-center text-gray-900">Create Account</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center text-[#2a4458]">Create Account</CardTitle>
             <CardDescription className="text-center text-gray-600">
               Join thousands of happy customers
             </CardDescription>
@@ -247,7 +247,7 @@ export default function RegisterPage() {
                 <Form className="space-y-6">
                   {/* Email Field */}
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="email" className="text-sm font-medium text-[#2a4458]">
                       Email Address
                     </Label>
                     <div className="relative">
@@ -277,7 +277,7 @@ export default function RegisterPage() {
 
                   {/* Password Field */}
                   <div className="space-y-2">
-                    <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="password" className="text-sm font-medium text-[#2a4458]">
                       Password
                     </Label>
                     <div className="relative">
@@ -312,7 +312,7 @@ export default function RegisterPage() {
 
                   {/* Confirm Password Field */}
                   <div className="space-y-2">
-                    <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="confirmPassword" className="text-sm font-medium text-[#2a4458]">
                       Confirm Password
                     </Label>
                     <div className="relative">
@@ -349,7 +349,7 @@ export default function RegisterPage() {
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    className="w-full bg-gradient-to-r from-orange-500 to-orange-500 hover:from-orange-600 hover:to-[#2a4458] text-white font-semibold py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
                     {isSubmitting ? (
                       <div className="flex items-center justify-center">
