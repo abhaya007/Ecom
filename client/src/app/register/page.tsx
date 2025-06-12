@@ -215,27 +215,18 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      {/* Decorative Corner Elements */}
-      <div className="absolute top-20 left-20 hidden lg:block">
-        <div className="flex items-center space-x-2 text-blue-600/20">
-          <ShoppingBag className="w-8 h-8" />
-          <div className="w-16 h-1 bg-blue-600/20 rounded"></div>
-        </div>
-      </div>
-      <div className="absolute bottom-20 right-20 hidden lg:block">
-        <div className="flex items-center space-x-2 text-orange-500/20">
-          <div className="w-16 h-1 bg-orange-500/20 rounded"></div>
-          <ShoppingBag className="w-8 h-8" />
-        </div>
-      </div>
 
-      <div className="w-full max-w-md z-10">
+
+      <div>
         {/* Logo/Brand */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl mb-4 shadow-lg">
-            <ShoppingBag className="w-8 h-8 text-white" />
+          <div >
+           <button className=' bg-transparent '>
+            <img src="/Kharid.png" alt="Kharid Logo" className="h-38 mx-auto mb-2 bg-transparent" />
+            <h1 className="text-3xl font-bold mb-2" style={{ color: '#2a4458' }}>CARTMANDU</h1>
+            </button> 
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">KHARID</h1>
+          
           <p className="text-gray-600">Your Premium Shopping Destination</p>
         </div>
 
