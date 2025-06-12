@@ -364,11 +364,11 @@ export default function RegisterPage() {
                   {/* Terms and Conditions */}
                   <p className="text-xs text-gray-600 text-center mt-4">
                     By creating an account, you agree to our{' '}
-                    <Link href="/terms" className="text-blue-600 hover:text-blue-700 underline">
+                    <Link href="/terms" className="text-[#f8732c] hover:text-[#2a4458] underline">
                       Terms of Service
                     </Link>{' '}
                     and{' '}
-                    <Link href="/privacy" className="text-blue-600 hover:text-blue-700 underline">
+                    <Link href="/privacy" className="text-[#f8732c] hover:text-[#2a4458] underline">
                       Privacy Policy
                     </Link>
                   </p>
@@ -380,7 +380,7 @@ export default function RegisterPage() {
             <div className="text-center mt-6 pt-6 border-t border-gray-200">
               <p className="text-sm text-gray-600">
                 Already have an account?{' '}
-                <Link href="/login" className="text-blue-600 hover:text-blue-700 font-semibold underline">
+                <Link href="/login" className="text-[#f8732c] hover:text-[#2a4458] font-semibold underline">
                   Sign in here
                 </Link>
               </p>
