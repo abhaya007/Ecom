@@ -22,6 +22,7 @@ import {
   CreditCard
 } from 'lucide-react';
 import Link from 'next/link';
+import axios from 'axios';
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -56,21 +57,21 @@ export default function RegisterPage() {
     confirmPassword: '',
   };
 
-  const handleSubmit = async (values: FormValues) => {
-    setIsSubmitting(true);
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Registration data:', { email: values.email });
-      // Here you would typically make an API call to register the user
-      alert('Registration successful! Please check your email for verification.');
-    } catch (error) {
-      console.error('Registration failed:', error);
-      alert('Registration failed. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+const handleSubmit = async (values: FormValues) => {
+  setIsSubmitting(true);
+  try {
+    const response = await axios.post('http://localhost:8000/register', values);
+    console.log('Registration data:', response.data);
+
+    alert('Registration successful! Please check your email for verification.');
+  } catch (error) {
+    console.error('Registration failed:', error);
+    alert('Registration failed. Please try again.');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex items-center justify-center p-4 relative overflow-hidden">
