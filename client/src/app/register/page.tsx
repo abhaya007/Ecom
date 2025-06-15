@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import axios from 'axios';
+import { toast } from 'sonner';
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -61,9 +62,12 @@ const handleSubmit = async (values: FormValues) => {
   setIsSubmitting(true);
   try {
     const response = await axios.post('http://localhost:8000/register', values);
-    console.log('Registration data:', response.data);
-
-    alert('Registration successful! Please check your email for verification.');
+    toast(response.data, {
+      icon: <CheckCircle className="text-green-500" />,
+      style:  {
+        background: '#f0fff4', // Light green background
+        color: '#065f46', // Dark green text
+      },});
   } catch (error) {
     console.error('Registration failed:', error);
     alert('Registration failed. Please try again.');
@@ -221,7 +225,7 @@ const handleSubmit = async (values: FormValues) => {
       <div>
         {/* Logo/Brand */}
         <div className="text-center mb-8">
-          <div >
+          <div > 
            <button className=' bg-transparent '>
             <img src="/Kharid.png" alt="Kharid Logo" className="h-38 mx-auto mb-2 bg-transparent" />
             <h1 className="text-3xl font-bold mb-2" style={{ color: '#2a4458' }}>CARTMANDU</h1>
@@ -390,7 +394,7 @@ const handleSubmit = async (values: FormValues) => {
         </Card>
 
         {/* Features */}
-        <div className="mt-8 text-center">
+        {/* <div className="mt-8 text-center">
           <div className="flex justify-center space-x-8 text-sm text-gray-600">
             <div className="flex items-center">
               <CheckCircle className="w-4 h-4 text-green-500 mr-1" />
@@ -405,7 +409,7 @@ const handleSubmit = async (values: FormValues) => {
               24/7 Support
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
