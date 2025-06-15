@@ -36,15 +36,12 @@ const validationSchema = Yup.object({
     .matches(/[0-9]/, 'Password must contain at least one number')
     .matches(/[^a-zA-Z0-9]/, 'Password must contain at least one special character')
     .required('Password is required'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password')], 'Passwords must match')
-    .required('Please confirm your password'),
+
 });
 
 interface FormValues {
   email: string;
   password: string;
-  confirmPassword: string;
 }
 
 export default function RegisterPage() {
@@ -54,8 +51,7 @@ export default function RegisterPage() {
 
   const initialValues: FormValues = {
     email: '',
-    password: '',
-    confirmPassword: '',
+    password: ''
   };
 
 const handleSubmit = async (values: FormValues) => {
@@ -227,8 +223,8 @@ const handleSubmit = async (values: FormValues) => {
         <div className="text-center mb-4">
           <div > 
            <button className=' bg-transparent '>
-            <img src="/Kharid.png" alt="Kharid Logo" className="h-38 mx-auto  bg-transparent" />
-            <h1 className="text-3xl font-bold mb-1" style={{ color: '#2a4458' }}>CARTMANDU</h1>
+            <img src="/logo.png" alt="Kharid Logo" className="h-28 mx-auto  bg-transparent" />
+            <span className="text-3xl font-bold mb-1" style={{ color: '#2a4458' }}>CARTMANDU</span>
             </button> 
           </div>
           <p className="text-gray-600">Your Premium Shopping Destination</p>
@@ -236,9 +232,9 @@ const handleSubmit = async (values: FormValues) => {
 
         <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
           <CardHeader className="space-y-1 pb-5">
-            <CardTitle className="text-2xl font-bold text-center text-[#2a4458]">Create Account</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center text-[#2a4458]">Sign In</CardTitle>
             <CardDescription className="text-center text-gray-600">
-              Join thousands of happy customers
+              Log in to your account to continue shopping
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -314,41 +310,6 @@ const handleSubmit = async (values: FormValues) => {
                     )}
                   </div>
 
-                  {/* Confirm Password Field */}
-                  <div className="space-y-2">
-                    <Label htmlFor="confirmPassword" className="text-sm font-bold text-[#2a4458]">
-                      Confirm Password
-                    </Label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Lock className="h-4 w-4 text-[#2a4458]" />
-                      </div>
-                      <Field
-                        as={Input}
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        type={showConfirmPassword ? 'text' : 'password'}
-                        placeholder="Confirm your password"
-                        className="w-full pl-10 pr-12 py-3 border-2 rounded-md focus:ring-2 focus:ring-[#f8732c] focus:border-transparent"
-                      />
-                      <button
-                        type="button"
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      >
-                        {showConfirmPassword ? (
-                          <EyeOff className="h-4 w-4 text-gray-400 hover:text-gray-600" />
-                        ) : (
-                          <Eye className="h-4 w-4 text-gray-400 hover:text-gray-600" />
-                        )}
-                      </button>
-                    </div>
-                    <ErrorMessage name="confirmPassword" component="div" className="text-sm text-red-600 mt-1" />
-                    {values.confirmPassword && !errors.confirmPassword && values.password === values.confirmPassword && (
-                      <div className="text-xs text-green-600 mt-1">Passwords match ✓</div>
-                    )}
-                  </div>
-
                   {/* Submit Button */}
                   <Button
                     type="submit"
@@ -358,7 +319,7 @@ const handleSubmit = async (values: FormValues) => {
                     {isSubmitting ? (
                       <div className="flex items-center justify-center">
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        Creating Account...
+                        Signing in...
                       </div>
                     ) : (
                       'Create Account'
@@ -383,9 +344,9 @@ const handleSubmit = async (values: FormValues) => {
             {/* Login Link */}
             <div className="text-center mt-6 pt-6 border-t border-gray-200">
               <p className="text-sm text-gray-600">
-                Already have an account?{' '}
-                <Link href="/login" className="text-[#f8732c] hover:text-[#2a4458] font-semibold underline">
-                  Sign in here
+                Don't Have an Account?{' '}
+                <Link href="/register" className="text-[#f8732c] hover:text-[#2a4458] font-semibold underline">
+                  Sign up Instead
                 </Link>
               </p>
             </div>

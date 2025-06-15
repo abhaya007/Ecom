@@ -191,7 +191,6 @@ export default function HomePage() {
                 <User className="w-5 h-5 mr-1" />
                 <span>Account</span>
               </Button>
-              
 
               <Link href="/register">
                 <Button variant="outline" size="sm" className="hidden md:flex items-center text-[#f8732c] border-[#f8732c] hover:bg-[#f8732c] hover:text-white">

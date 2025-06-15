@@ -227,8 +227,8 @@ const handleSubmit = async (values: FormValues) => {
         <div className="text-center mb-4">
           <div > 
            <button className=' bg-transparent '>
-            <img src="/Kharid.png" alt="Kharid Logo" className="h-38 mx-auto  bg-transparent" />
-            <h1 className="text-3xl font-bold mb-1" style={{ color: '#2a4458' }}>CARTMANDU</h1>
+            <img src="/logo.png" alt="Kharid Logo" className="h-28 mx-auto  bg-transparent" />
+            <span className="text-3xl font-bold mb-1" style={{ color: '#2a4458' }}>CARTMANDU</span>
             </button> 
           </div>
           <p className="text-gray-600">Your Premium Shopping Destination</p>
@@ -385,7 +385,7 @@ const handleSubmit = async (values: FormValues) => {
               <p className="text-sm text-gray-600">
                 Already have an account?{' '}
                 <Link href="/login" className="text-[#f8732c] hover:text-[#2a4458] font-semibold underline">
-                  Sign in here
+                  Sign-In
                 </Link>
               </p>
             </div>
