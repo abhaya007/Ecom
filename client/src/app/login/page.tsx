@@ -24,6 +24,8 @@ import {
 import Link from 'next/link';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -53,20 +55,21 @@ export default function RegisterPage() {
     email: '',
     password: ''
   };
-
+const router = useRouter()
 const handleSubmit = async (values: FormValues) => {
   setIsSubmitting(true);
   try {
-    const response = await axios.post('http://localhost:8000/login', values);
-    toast(response.data, {
+    const {data} = await axios.post('http://localhost:8000/login', values);
+    if(data?.isLoggedIn) router.push('/')
+    toast(data?.message, {
       icon: <CheckCircle className="text-green-500" />,
       style:  {
         background: '#f0fff4', // Light green background
         color: '#065f46', // Dark green text
       },});
   } catch (error) {
-    console.error('Registration failed:', error);
-    alert('Registration failed. Please try again.');
+    console.error('Login Failed:', error);
+    alert('Login failed. Please try again.');
   } finally {
     setIsSubmitting(false);
   }
@@ -322,7 +325,7 @@ const handleSubmit = async (values: FormValues) => {
                         Signing in...
                       </div>
                     ) : (
-                      'Create Account'
+                      'Sign In'
                     )}
                   </Button>
 
