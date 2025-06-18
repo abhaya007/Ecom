@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { UseSelector } from 'react-redux';
 import { 
   Eye, 
   EyeOff, 
@@ -25,6 +26,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 
 const validationSchema = Yup.object({
@@ -47,8 +49,8 @@ interface FormValues {
 }
 
 export default function RegisterPage() {
+  const {backgroundColor} = useSelector(state => state.box);
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const initialValues: FormValues = {
@@ -78,6 +80,7 @@ const handleSubmit = async (values: FormValues) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex items-center justify-center p-4 relative overflow-hidden">
+      {backgroundColor q}
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-10 left-10 w-20 h-20 bg-orange-500 rounded-full blur-xl"></div>
