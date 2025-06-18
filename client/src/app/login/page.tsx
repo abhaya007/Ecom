@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { UseSelector } from 'react-redux';
 import { 
   Eye, 
   EyeOff, 
@@ -26,7 +25,8 @@ import Link from 'next/link';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addLoginDetails } from '@/redux/reducerSlices/userSlice';
 
 
 const validationSchema = Yup.object({
@@ -58,17 +58,16 @@ export default function RegisterPage() {
     password: ''
   };
 const router = useRouter()
+const dispatch = useDispatch();
 const handleSubmit = async (values: FormValues) => {
   setIsSubmitting(true);
   try {
     const {data} = await axios.post('http://localhost:8000/login', values);
     if(data?.isLoggedIn) router.push('/')
-    toast(data?.message, {
-      icon: <CheckCircle className="text-green-500" />,
-      style:  {
-        background: '#f0fff4', // Light green background
-        color: '#065f46', // Dark green text
-      },});
+    toast(data?.message)
+    if(data){
+        dispatch(addLoginDetails(data))
+      };
   } catch (error) {
     console.error('Login Failed:', error);
     alert('Login failed. Please try again.');

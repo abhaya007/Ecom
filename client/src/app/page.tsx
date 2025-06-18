@@ -32,6 +32,8 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+
 
 const featuredProducts = [
   {
@@ -110,6 +112,7 @@ const testimonials = [
 ];
 
 export default function HomePage() {
+  const {email} = useSelector(state=> state.user);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -146,6 +149,8 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white">
+      {email}
+      
       {/* Header */}
       <header className="bg-white shadow-sm border-b sticky top-0 z-50">
         {/* Main Header */}
