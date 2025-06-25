@@ -3,8 +3,11 @@ import connect from './db/connect.js'
 import cors from 'cors'
 import userRoute from './routes/user.js'
 import userRouter from './routes/user.js'
+import dotenv from 'dotenv'
+dotenv.config()
+
 const app = express()
-const port = 8000
+const port = process.env.PORT
 
 connect()
 app.use(cors())

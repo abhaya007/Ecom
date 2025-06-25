@@ -3,6 +3,7 @@ import bycrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 const salRounds = 10;
 import User from "../models/user.js";
+import sendEmail from "../utils/sendEmail.js";
 const userRouter = Router();
 
 userRouter.post('/register', async (req, res) => {
@@ -15,7 +16,8 @@ userRouter.post('/register', async (req, res) => {
     req.body.password = await bycrypt.hash(req.body.password,salRounds);
     //step 3: Save the user to the database
     User.create(req.body)
-    return res.send('User registered successfully');
+    sendEmail(req.body.email);
+    return res.send('User registered, check your email');
 }})
 
 userRouter.post('/login', async (req, res) => {
@@ -31,8 +33,7 @@ userRouter.post('/login', async (req, res) => {
    const isMatch = await bycrypt.compare(password, user.password);
    if(!isMatch) return res.send({message:'Invalid password'});
 
-   const token = await jwt.sign({ email: email},'5ede54ac6493a09864e2560d46ffcb793190fd76101911c14646a3187853920face35506d35221b7abb4a305dd6496680749842cf1fc1f32fa47467b94564969' 
-   )
+   const token = await jwt.sign({ email: email},process.env.JWT_SECRET)
 
 
    return res.send({
