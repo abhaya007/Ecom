@@ -61,7 +61,7 @@ export default function RegisterPage() {
 const handleSubmit = async (values: FormValues) => {
   setIsSubmitting(true);
   try {
-    const response = await axios.post('http://localhost:8000/register', values);
+    const response = await axios.post(process.env.NEXT_PUBLIC_API_URL+'/register', values);
     toast(response.data, {
       icon: <CheckCircle className="text-green-500" />,
       style:  {
@@ -70,7 +70,7 @@ const handleSubmit = async (values: FormValues) => {
       },});
   } catch (error) {
     console.error('Registration failed:', error);
-    alert('Registration failed. Please try again.');
+    toast('Registration failed. Please try again.');
   } finally {
     setIsSubmitting(false);
   }

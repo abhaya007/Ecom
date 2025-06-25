@@ -159,7 +159,7 @@ export default function HomePage() {
             {/* Logo */}
               <Link href="/" className="flex items-center space-x-2">
                 <Image src="/logo.png" alt="Cartmandu" width={40} height={40} />
-                <span className="text-3xl font-bold text-[#2a4458]">Cartmandu</span>
+                <span className="text-4xl font-bold text-[#2a4458]">Cartmandu</span>
               </Link>
 
             {/* Search Bar */}

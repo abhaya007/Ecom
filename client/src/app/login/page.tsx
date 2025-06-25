@@ -62,7 +62,7 @@ const dispatch = useDispatch();
 const handleSubmit = async (values: FormValues) => {
   setIsSubmitting(true);
   try {
-    const {data} = await axios.post('http://localhost:8000/login', values);
+    const {data} = await axios.post(process.env.NEXT_PUBLIC_API_URL +'/login', values);
     if(data?.isLoggedIn) router.push('/')
     toast(data?.message)
     if(data){
