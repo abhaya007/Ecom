@@ -59,6 +59,7 @@ export default function RegisterPage() {
   };
 const router = useRouter()
 const dispatch = useDispatch();
+
 const handleSubmit = async (values: FormValues) => {
   setIsSubmitting(true);
   try {

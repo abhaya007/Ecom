@@ -13,7 +13,7 @@ export const userSlice = createSlice({
     return initialState   
    },
     addLoginDetails: (state, action) => {
-      debugger;
+      //debugger;
       const {token, isLoggedIn} = action.payload
       const { email, role, _id } = action.payload.user
       return {

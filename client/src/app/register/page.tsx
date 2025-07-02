@@ -61,16 +61,28 @@ export default function RegisterPage() {
 const handleSubmit = async (values: FormValues) => {
   setIsSubmitting(true);
   try {
-    const response = await axios.post(process.env.NEXT_PUBLIC_API_URL+'/register', values);
-    toast(response.data, {
-      icon: <CheckCircle className="text-green-500" />,
-      style:  {
-        background: '#f0fff4', // Light green background
-        color: '#065f46', // Dark green text
-      },});
+    const {data} = await axios.post(process.env.NEXT_PUBLIC_API_URL+'/register', values);
+
+ {data.success
+  ? toast.success(data.message, {
+      style: { background: '#d1fae5', color: '#065f46' } 
+    })
+  : toast.error(data.message, {
+      style: { background: '#fee2e2', color: '#991b1b' } 
+    })}
+    // code to Reset form after successful registration
+    // Reset form values
+    // values.email = '';
+    // values.password = '';
+    // values.confirmPassword = '';
+    // Optionally redirect to login or home page
+    // window.location.href = '/login'; // Redirect to login page
+
+
+
   } catch (error) {
     console.error('Registration failed:', error);
-    toast('Registration failed. Please try again.');
+    alert('Registration failed. Please try again.');
   } finally {
     setIsSubmitting(false);
   }
