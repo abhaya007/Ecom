@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
+  username: '',
   email: '',
   token: '',
   isLoggedIn: false,
@@ -15,9 +16,10 @@ export const userSlice = createSlice({
     addLoginDetails: (state, action) => {
       //debugger;
       const {token, isLoggedIn} = action.payload
-      const { email, role, _id } = action.payload.user
+      const { username, email, role, _id } = action.payload.user
       return {
         ...state,
+        username:username,
         email: email,
         token: token,
         isLoggedIn: isLoggedIn,

@@ -28,11 +28,13 @@ import {
   TrendingUp,
   Clock,
   CheckCircle,
-  UserPlus
+  UserPlus,
+  LogOut
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '@/redux/reducerSlices/userSlice';
 
 
 const featuredProducts = [
@@ -112,18 +114,26 @@ const testimonials = [
 ];
 
 export default function HomePage() {
-  const {email} = useSelector(state=> state.user);
+  const {isLoggedIn} = useSelector(state=> state.user);
+  const dispatch = useDispatch();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const handleLogout = () => {
+    dispatch(logoutUser())
+  }
+
   const heroSlides = [
     {
+      
       title: "Summer Sale Extravaganza",
       subtitle: "Up to 70% off on selected items",
       description: "Discover amazing deals on electronics, fashion, and home essentials",
       image: "https://images.pexels.com/photos/1005638/pexels-photo-1005638.jpeg?auto=compress&cs=tinysrgb&w=800",
-      cta: "Shop Now"
+      cta: "Shop Now",
+
     },
+
     {
       title: "New Arrivals Collection",
       subtitle: "Fresh styles, latest trends",
@@ -149,7 +159,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {email}
+      
       
       {/* Header */}
       <header className="bg-white shadow-sm border-b sticky top-0 z-50">
@@ -197,20 +207,20 @@ export default function HomePage() {
                 <span>Account</span>
               </Button>
 
-              <Link href="/register">
+              {isLoggedIn ? 
+              <Link href="/">
+                <Button onClick={handleLogout} variant="outline" size="sm" className="hidden md:flex items-center text-[#f8732c] border-[#f8732c] hover:bg-[#f8732c] hover:text-white">
+                  <LogOut className='w-4 h-4 mr-1'/>
+                  <span>Logout</span>
+                </Button>
+              </Link> :
+               <Link href="/register">
                 <Button variant="outline" size="sm" className="hidden md:flex items-center text-[#f8732c] border-[#f8732c] hover:bg-[#f8732c] hover:text-white">
                   <UserPlus className="w-4 h-4 mr-1" />
                   <span>Sign Up</span>
                 </Button>
-              </Link>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="md:hidden"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                <Menu className="w-5 h-5" />
-              </Button>
+              </Link>}
+
             </div>
           </div>
         </div>
@@ -220,8 +230,8 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-12">
               <div className="hidden md:flex items-center space-x-8">
-                <Link href="/" className="hover:text-[#f8732c] transition-colors font-medium">
-                  Home
+                <Link href="/products" className="hover:text-[#f8732c] transition-colors font-medium">
+                  Products
                 </Link>
                 <Link href="/categories" className="hover:text-[#f8732c] transition-colors">
                   Categories

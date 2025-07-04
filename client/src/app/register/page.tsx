@@ -19,13 +19,24 @@ import {
   Truck,
   Package,
   Gift,
-  CreditCard
+  CreditCard,
+  User,
+  Shield
 } from 'lucide-react';
 import Link from 'next/link';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const validationSchema = Yup.object({
+  username: Yup.string()
+    .min(3, 'Username must be at least 3 characters')
+    .max(20, 'Username must be less than 20 characters')
+    .matches(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores')
+    .required('Username is required'),
+  role: Yup.string()
+    .oneOf(['admin', 'user'], 'Please select a valid role')
+    .required('Role is required'),
   email: Yup.string()
     .email('Please enter a valid email address')
     .required('Email is required'),
@@ -42,6 +53,8 @@ const validationSchema = Yup.object({
 });
 
 interface FormValues {
+  username: string;
+  role: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -53,6 +66,8 @@ export default function RegisterPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const initialValues: FormValues = {
+    username: '',
+    role: 'user', // Default role
     email: '',
     password: '',
     confirmPassword: '',
@@ -70,15 +85,6 @@ const handleSubmit = async (values: FormValues) => {
   : toast.error(data.message, {
       style: { background: '#fee2e2', color: '#991b1b' } 
     })}
-    // code to Reset form after successful registration
-    // Reset form values
-    // values.email = '';
-    // values.password = '';
-    // values.confirmPassword = '';
-    // Optionally redirect to login or home page
-    // window.location.href = '/login'; // Redirect to login page
-
-
 
   } catch (error) {
     console.error('Registration failed:', error);
@@ -259,8 +265,70 @@ const handleSubmit = async (values: FormValues) => {
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
             >
-              {({ errors, touched, values }) => (
+              {({ errors, touched, values, setFieldValue }) => (
                 <Form className="space-y-6">
+                  {/* Username Field */}
+                  <div className="space-y-2">
+                    <Label htmlFor="username" className="text-sm font-bold text-[#2a4458]">
+                      Username
+                    </Label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <User className="h-4 w-4 text-[#2a4458]" />
+                      </div>
+                      <Field
+                        as={Input}
+                        id="username"
+                        name="username"
+                        type="text"
+                        placeholder="Choose a username"
+                        className="w-full pl-10 pr-12 py-3 border-2 rounded-md focus:ring-2 focus:ring-[#f8732c] focus:border-transparent"
+                      />
+                      {errors.username && touched.username ? (
+                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                          <AlertCircle className="h-4 w-4 text-red-500" />
+                        </div>
+                      ) : values.username && !errors.username ? (
+                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        </div>
+                      ) : null}
+                    </div>
+                    <ErrorMessage name="username" component="div" className="text-sm text-red-600 mt-1" />
+                  </div>
+                  
+                  {/* Role Field */}
+                  <div className="space-y-2">
+                    <Label htmlFor="role" className="text-sm font-bold text-[#2a4458]">
+                      Role
+                    </Label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+                        <Shield className="h-4 w-4 text-[#2a4458]" />
+                      </div>
+                      <Select
+                        value={values.role}
+                        onValueChange={(value) => setFieldValue('role', value)}
+                      >
+                        <SelectTrigger className="w-full pl-10 pr-4 py-3 border-2 rounded-md focus:ring-2 focus:ring-[#f8732c] focus:border-transparent">
+                          <SelectValue placeholder="Select your role" />
+                        </SelectTrigger>
+                        <SelectContent className="z-50 bg-white shadow-lg rounded-md">
+                          <SelectItem     className="px-4 py-2 hover:bg-orange-100 hover:text-[#f8732c] transition duration-200 cursor-pointer rounded"
+                          value="user">User</SelectItem>
+                          <SelectItem     className="px-4 py-2 hover:bg-orange-100 hover:text-[#f8732c] transition duration-200 cursor-pointer rounded"
+                          value="admin">Admin</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      {values.role && !errors.role && (
+                        <div className="absolute inset-y-0 right-8 pr-3 flex items-center pointer-events-none">
+                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        </div>
+                      )}
+                    </div>
+                    <ErrorMessage name="role" component="div" className="text-sm text-red-600 mt-1" />
+                  </div>
+
                   {/* Email Field */}
                   <div className="space-y-2">
                     <Label htmlFor="email" className="text-sm font-bold text-[#2a4458]">
@@ -404,23 +472,6 @@ const handleSubmit = async (values: FormValues) => {
           </CardContent>
         </Card>
 
-        {/* Features */}
-        {/* <div className="mt-8 text-center">
-          <div className="flex justify-center space-x-8 text-sm text-gray-600">
-            <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 text-green-500 mr-1" />
-              Free Shipping
-            </div>
-            <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 text-green-500 mr-1" />
-              Easy Returns
-            </div>
-            <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 text-green-500 mr-1" />
-              24/7 Support
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   );
