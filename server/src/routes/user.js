@@ -10,14 +10,14 @@ userRouter.post('/register', async (req, res) => {
   //step 1: Check if the email already exists
   const user = await User.findOne({ email: req.body.email })
   if(user)
-     return res.send('Email already exists');
+     return res.send({success: false, message: 'Email already exists'});
   else {
     //step 2: If not, hash the password and create a new user
     req.body.password = await bycrypt.hash(req.body.password,salRounds);
     //step 3: Save the user to the database
     User.create(req.body)
     sendEmail(req.body.email);
-    return res.send('User registered, check your email');
+    return res.send({success: true, message: 'User registered, check your email'});
 }})
 
 userRouter.post('/login', async (req, res) => {
@@ -26,17 +26,18 @@ userRouter.post('/login', async (req, res) => {
   const user = await User.findOne({ email: email })
 
   //no: return 'Email does not exist'
-   if(!user) return res.send({message:'Email does not exist'});
+   if(!user) return res.send({success: false, message:'Email does not exist'});
 
   //yes:
    //step 2: Check if the password mathes to the hashed password
    const isMatch = await bycrypt.compare(password, user.password);
-   if(!isMatch) return res.send({message:'Invalid password'});
+   if(!isMatch) return res.send({success: false, message:'Invalid password'});
 
    const token = await jwt.sign({ email: email},process.env.JWT_SECRET)
 
 
    return res.send({
+      success: true,
       message: 'Login successful',
       user: user,
       isLoggedIn: true,
