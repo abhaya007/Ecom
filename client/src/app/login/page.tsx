@@ -64,7 +64,14 @@ const handleSubmit = async (values: FormValues) => {
   setIsSubmitting(true);
   try {
     const {data} = await axios.post(process.env.NEXT_PUBLIC_API_URL +'/login', values);
-    toast(data?.message)
+     {data.success
+     ? toast.success(data.message, {
+      style: { background: '#d1fae5', color: '#065f46' } 
+      })
+     : toast.error(data.message, {
+      style: { background: '#fee2e2', color: '#991b1b' } 
+    })}
+
     if(data?.isLoggedIn) router.push('/')
     
     if(data?.isLoggedIn){

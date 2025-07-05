@@ -31,10 +31,7 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.27.1",
     "@eslint/eslintrc": "^3",
-    "@locator/babel-jsx": "^0.4.4",
-    "@locator/runtime": "^0.4.4",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

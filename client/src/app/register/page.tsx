@@ -104,7 +104,6 @@ const handleSubmit = async (values: FormValues) => {
         <div className="absolute bottom-20 left-1/4 w-24 h-24 bg-orange-400 rounded-full blur-xl"></div>
         <div className="absolute bottom-32 right-10 w-28 h-28 bg-blue-400 rounded-full blur-xl"></div>
       </div>
-
       {/* Floating Ecommerce Elements */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Top Area */}
@@ -237,12 +236,9 @@ const handleSubmit = async (values: FormValues) => {
           <ShoppingCart className="w-4 h-4 text-orange-200" />
         </div>
       </div>
-
-
-
       <div>
-        {/* Logo/Brand */}
-        <div className="text-center mb-4">
+      {/* Logo/Brand */}
+      <div className="text-center mb-4">
           <div > 
            <button className=' bg-transparent '>
             <img src="/logo.png" alt="Kharid Logo" className="h-28 mx-auto  bg-transparent" />
@@ -250,16 +246,16 @@ const handleSubmit = async (values: FormValues) => {
             </button> 
           </div>
           <p className="text-gray-600">Your Premium Shopping Destination</p>
-        </div>
+      </div>
 
-        <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
-          <CardHeader className="space-y-1 pb-5">
+      <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
+        <CardHeader className="space-y-1 pb-5">
             <CardTitle className="text-2xl font-bold text-center text-[#2a4458]">Create Account</CardTitle>
             <CardDescription className="text-center text-gray-600">
               Join thousands of happy customers
             </CardDescription>
-          </CardHeader>
-          <CardContent>
+        </CardHeader>
+        <CardContent>
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -314,10 +310,14 @@ const handleSubmit = async (values: FormValues) => {
                           <SelectValue placeholder="Select your role" />
                         </SelectTrigger>
                         <SelectContent className="z-50 bg-white shadow-lg rounded-md">
-                          <SelectItem     className="px-4 py-2 hover:bg-orange-100 hover:text-[#f8732c] transition duration-200 cursor-pointer rounded"
-                          value="user">User</SelectItem>
-                          <SelectItem     className="px-4 py-2 hover:bg-orange-100 hover:text-[#f8732c] transition duration-200 cursor-pointer rounded"
-                          value="admin">Admin</SelectItem>
+                          <SelectItem 
+                            className="px-4 py-2 hover:bg-orange-100 hover:text-[#f8732c] transition duration-200 cursor-pointer rounded"
+                            value="user"> User
+                          </SelectItem>
+                          <SelectItem 
+                            className="px-4 py-2 hover:bg-orange-100 hover:text-[#f8732c] transition duration-200 cursor-pointer rounded"
+                            value="admin"> Admin
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                       {values.role && !errors.role && (
