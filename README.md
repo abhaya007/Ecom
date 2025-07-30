@@ -1,23 +1,23 @@
 # 🛒 Cartmandu
 
-**Cartmandu** is a powerful e-commerce application designed to make online shopping easy and enjoyable. Our platform connects users with a wide selection of products, offering user-friendly browsing, secure payments, and efficient delivery. Whether it's electronics, fashion, or more — Cartmandu is your trusted destination.
+**Cartmandu** is an e-commerce platform built to simplify online shopping. It offers a user-friendly experience for browsing and purchasing a wide range of products, from electronics to fashion and more. Designed with both functionality and ease of use in mind, Cartmandu aims to provide a reliable and accessible shopping experience.
 
 ---
 
 ## 🚀 Core Functionality
 
-- **User and Vendor Authentication**: Secure registration and login for users and vendors.
-- **Product Listing & Management**: Vendors can add, update, and manage products with descriptions, images, and pricing.
-- **Dynamic Product Catalog**: Advanced filtering, category navigation, and precise search.
+- **User and Admin Authentication**: Secure registration and login for users and vendors.
+- **Admin Dashboard**: Manage users, products, orders, and configurations.
+- **User Profiles**: Manage personal info, addresses, and payment options.
 - **Shopping Cart System**: Add, update, or remove items before checkout.
-- **Secure Checkout**: Streamlined and secure order placement.
-- **Order Tracking & History**: Users can track orders and review past purchases.
+- **Dynamic Product Catalog**: Advanced filtering, category navigation, and precise search.
 - **Search & Filters**: Multifaceted filtering by price, category, and brand.
 - **Reviews & Ratings**: Users can review and rate products.
-- **User Profiles**: Manage personal info, addresses, and payment options.
+- **Order Tracking & History**: Users can track orders and review past purchases.
 - **Wishlist**: Save items for future purchases.
 - **Coupon System**: Apply discount codes during checkout.
-- **Admin Dashboard**: Manage users, products, orders, and configurations.
+- **Secure Checkout**: Streamlined and secure order placement.
+
 
 ---
 
@@ -56,16 +56,14 @@
 #### Frontend
 - [x] User Login & Registration
 - [x] Logout Functionality
-- [ ] Vendor Registration Form
-- [ ] Product Display UI
+- [x] Product Display UI
 - [ ] Basic Cart Functionality (add/remove items)
 
 #### Backend
 - [x] User Registration Endpoint (`bcrypt` + email check)
 - [x] User Login Endpoint (`JWT` generation)
 - [x] Get All Users Endpoint
-- [ ] Product Management Endpoints (create/update/view) 
-- [ ] Vendor Registration & Verification Endpoint
+- [x] Product Management Endpoints (create/update/view) 
 - [ ] Basic Cart API
 
 ---
@@ -101,7 +99,7 @@
 ### 📦 Prerequisites
 
 - Node.js (LTS recommended)
-- MongoDB (local or [MongoDB Atlas](https://www.mongodb.com/cloud/atlas))
+- MongoDB 
 
 ### 📁 Installation Steps
 
