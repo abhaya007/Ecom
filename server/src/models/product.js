@@ -5,24 +5,28 @@ const productSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, 'Product name is required'],
+      //required: [true, 'Product name is required'],
       trim: true,
     },
     description: {
       type: String,
-      required: [true, 'Product description is required'],
+      //required: [true, 'Product description is required'],
     },
     brand: {
       type: String,
-      required: true,
+      //required: true,
     },
     category: {
       type: String,
-      required: [true, 'Product category is required'],
+      //required: [true, 'Product category is required'],
+    },
+    status: {
+      type: String,
+      //required: [true, 'status is required'],
     },
     price: {
       type: Number,
-      required: [true, 'Price is required'],
+      //required: [true, 'Price is required'],
       min: 0,
     },
     discount: {
@@ -36,12 +40,12 @@ const productSchema = new Schema(
     },
     stock: {
       type: Number,
-      required: true,
+      //required: true,
       min: 0,
     },
-   images: {
-      type: [String],
-      default: [],
+   image: {
+      type: String,
+      default: "",
     },
   
     variants: [
@@ -51,11 +55,6 @@ const productSchema = new Schema(
         stock: Number,
       },
     ],
-    sku: {
-      type: String,
-      unique: true,
-      required: true,
-    },
     tags: [String],
     isFeatured: {
       type: Boolean,
