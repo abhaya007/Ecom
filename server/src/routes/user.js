@@ -46,10 +46,14 @@ userRouter.post('/login', async (req, res) => {
    })
 })
 
-userRouter.get('/users', async(req, res) => {
-  const data = await User.find()
-  res.send(data);
-})
+userRouter.get('/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json({ success: true, users });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Error', error: err });
+  }
+});
 
 
 
