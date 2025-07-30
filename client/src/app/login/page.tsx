@@ -48,7 +48,7 @@ interface FormValues {
   password: string;
 }
 
-export default function RegisterPage() {
+export default function LoginPage() {
   //const {backgroundColor} = useSelector(state => state.box);
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
