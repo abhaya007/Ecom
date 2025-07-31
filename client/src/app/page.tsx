@@ -42,7 +42,7 @@ type Product = {
   name: string;
   price: number;
   originalPrice?: number;
-  image: string;
+  imageName: string;
   rating?: number;
   reviews?: number;
   badge?: string;
@@ -406,7 +406,7 @@ export default function HomePage() {
       {/* Featured Products */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-12">  ">
+          <div className="flex justify-between items-center mb-12"> >  
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-[#2a4458] mb-4">
                 Featured Products
@@ -430,7 +430,7 @@ export default function HomePage() {
               >
                 <div className="relative">
                   <img
-                    src={product.image || "/Kharid.png"}
+                    src={`http://localhost:8080/images/${product.imageName}`}
                     alt={product.name}
                     className="w-full aspect-[4/3] h-48 sm:h-56 md:h-60 object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300"
                     style={{

@@ -27,6 +27,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { addLoginDetails } from '@/redux/reducerSlices/userSlice';
+import { escape } from 'querystring';
 
 
 const validationSchema = Yup.object({
@@ -72,7 +73,15 @@ const handleSubmit = async (values: FormValues) => {
       style: { background: '#fee2e2', color: '#991b1b' } 
     })}
 
-    if(data?.isLoggedIn) router.push('/')
+    if(data?.isLoggedIn) {
+      //if user role is admin, redirect to admin dashboard
+      if(data?.user?.role === 'admin') {
+        router.push('/admin');
+      }else {
+        //if user, redirect to user dashboard
+        router.push('/');
+      }
+    }
     
     if(data?.isLoggedIn){
          dispatch(addLoginDetails(data))

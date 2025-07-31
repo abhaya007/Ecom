@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+
 type Category = {
   _id?: string;
   id?: string | number;
@@ -22,7 +24,7 @@ type Product = {
   price: number;
   stock: number;
   status: string;
-  image: string;
+  imageName: string;
 };
 
 export default function ProductsPage() {
@@ -38,7 +40,7 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [formData, setFormData] = useState({
+  const [initialValues, setInitialValues] = useState({
     name: "",
     description: "",
     brand: "",
@@ -46,7 +48,7 @@ export default function ProductsPage() {
     price: "",
     stock: "",
     status: "Active",
-    image: "",
+    imageName: "",
     isPublished: false,
   });
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -65,18 +67,20 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
+  const [uplodedFiles, setUplodedFiles] = useState<File | null>(null);
+
   // Add or update product
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const payload = {
-      name: formData.name,
-      category: formData.category,
-      price: parseFloat(formData.price),
-      stock: parseInt(formData.stock),
-      status: formData.status,
-      image:
-        formData.image ||
-        `https://readdy.ai/api/search-image?query=generic%20product%20placeholder%20on%20white%20background%2C%20product%20photography%20style%2C%20clean%20minimal%20aesthetic&width=100&height=100&orientation=squarish&ts=${Date.now()}`,
+      name: initialValues.name,
+      category: initialValues.category,
+      price: parseFloat(initialValues.price),
+      stock: parseInt(initialValues.stock),
+      status: initialValues.status,
+       imageName:
+         initialValues.imageName ||
+         `https://readdy.ai/api/search-image?query=generic%20product%20placeholder%20on%20white%20background%2C%20product%20photography%20style%2C%20clean%20minimal%20aesthetic&width=100&height=100&orientation=squarish&ts=${Date.now()}`,
     };
 
     try {
@@ -95,13 +99,22 @@ export default function ProductsPage() {
         setEditingProduct(null);
       } else {
         // POST: add product
-        const res = await axios.post("http://localhost:8080/products", payload);
+        const formData = new FormData();
+        formData.append("name", payload.name);
+        formData.append("category", payload.category);
+        formData.append("price", payload.price.toString());
+        formData.append("stock", payload.stock.toString());
+        formData.append("status", payload.status);
+        if (uplodedFiles) {
+          formData.append("uploadedFiles", uplodedFiles);
+        }
+        const res = await axios.post("http://localhost:8080/products", formData);
         setProducts([...products, res.data.product]);
         toast.success("Product added successfully");
       }
 
       setShowAddForm(false);
-      setFormData({
+      setInitialValues({
         name: "",
         description: "",
         brand: "",
@@ -109,7 +122,7 @@ export default function ProductsPage() {
         price: "",
         stock: "",
         status: "Active",
-        image: "",
+        imageName: "",
         isPublished: false,
       });
     } catch (err) {
@@ -121,7 +134,7 @@ export default function ProductsPage() {
   // Edit handler
   const handleEdit = (product: Product) => {
     setEditingProduct(product);
-    setFormData({
+    setInitialValues({
       name: product.name,
       description: "",
       brand: "",
@@ -129,7 +142,7 @@ export default function ProductsPage() {
       price: product.price.toString(),
       stock: product.stock.toString(),
       status: product.status,
-      image: product.image || "",
+      imageName: product.imageName || "",
       isPublished: false,
     });
     setShowAddForm(true);
@@ -191,9 +204,9 @@ export default function ProductsPage() {
                     </label>
                     <input
                       type="text"
-                      value={formData.name}
+                      value={initialValues.name}
                       onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
+                        setInitialValues({ ...initialValues, name: e.target.value })
                       }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f8732c]"
                       required
@@ -205,9 +218,9 @@ export default function ProductsPage() {
                     </label>
                     {categories.length > 0 ? (
                       <select
-                        value={formData.category}
+                        value={initialValues.category}
                         onChange={(e) =>
-                          setFormData({ ...formData, category: e.target.value })
+                          setInitialValues({ ...initialValues, category: e.target.value })
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f8732c]"
                         required
@@ -235,9 +248,9 @@ export default function ProductsPage() {
                     <input
                       type="number"
                       step="0.01"
-                      value={formData.price}
+                      value={initialValues.price}
                       onChange={(e) =>
-                        setFormData({ ...formData, price: e.target.value })
+                        setInitialValues({ ...initialValues, price: e.target.value })
                       }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f8732c]"
                       required
@@ -249,9 +262,9 @@ export default function ProductsPage() {
                     </label>
                     <input
                       type="number"
-                      value={formData.stock}
+                      value={initialValues.stock}
                       onChange={(e) =>
-                        setFormData({ ...formData, stock: e.target.value })
+                        setInitialValues({ ...initialValues, stock: e.target.value })
                       }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f8732c]"
                       required
@@ -262,9 +275,9 @@ export default function ProductsPage() {
                       Status
                     </label>
                     <select
-                      value={formData.status}
+                      value={initialValues.status}
                       onChange={(e) =>
-                        setFormData({ ...formData, status: e.target.value })
+                        setInitialValues({ ...initialValues, status: e.target.value })
                       }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f8732c] pr-8"
                     >
@@ -278,11 +291,9 @@ export default function ProductsPage() {
                       Image URL
                     </label>
                     <input
-                      type="text"
-                      value={formData.image}
-                      onChange={(e) =>
-                        setFormData({ ...formData, image: e.target.value })
-                      }
+                      type="file"
+
+                      onChange={(e)=> setUplodedFiles(e.target.files[0])}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f8732c]"
                       placeholder="https://example.com/image.jpg"
                     />
@@ -299,7 +310,7 @@ export default function ProductsPage() {
                       onClick={() => {
                         setShowAddForm(false);
                         setEditingProduct(null);
-                        setFormData({
+                        setInitialValues({
                           name: "",
                           description: "",
                           brand: "",
@@ -307,7 +318,7 @@ export default function ProductsPage() {
                           price: "",
                           stock: "",
                           status: "Active",
-                          image: "",
+                          imageName: "",
                           isPublished: false,
                         });
                       }}
@@ -355,22 +366,16 @@ export default function ProductsPage() {
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
+                          {product.imageName ? 
                           <img
-                            src={
-                              typeof product.image === "string" &&
-                              product.image.trim() !== ""
-                                ? product.image.trim()
-                                : `https://readdy.ai/api/search-image?query=generic%20product%20placeholder%20on%20white%20background%2C%20product%20photography%20style%2C%20clean%20minimal%20aesthetic&width=100&height=100&orientation=squarish&ts=${
-                                    product._id || ""
-                                  }`
-                            }
+                            src={`http://localhost:8080/images/${product.imageName}`}
                             alt={product.name}
                             className="w-16 h-16 rounded-lg object-cover mr-3 border border-gray-200 bg-white"
                             style={{
-                              minWidth: 64,
-                              minHeight: 64,
-                              maxWidth: 64,
-                              maxHeight: 64,
+                              minWidth: 65,
+                              minHeight: 65,
+                              maxWidth: 65,
+                              maxHeight: 65,
                             }}
                             onError={(e) => {
                               const target = e.currentTarget;
@@ -383,7 +388,8 @@ export default function ProductsPage() {
                                 target.dataset.fallback = "true";
                               }
                             }}
-                          />
+                          /> :"image not found...."}
+
                           <div className="text-sm font-medium text-gray-900">
                             {product.name}
                           </div>
@@ -454,28 +460,28 @@ export default function ProductsPage() {
                         </h2>
                         <div className="flex gap-10">
                           <div className="flex-shrink-0 flex items-center justify-center">
-                            <img
-                              src={
-                                typeof selectedProduct.image === "string" &&
-                                selectedProduct.image.trim() !== ""
-                                  ? selectedProduct.image.trim()
-                                  : `https://readdy.ai/api/search-image?query=generic%20product%20placeholder%20on%20white%20background%2C%20product%20photography%20style%2C%20clean%20minimal%20aesthetic&width=100&height=100&orientation=squarish&ts=${
-                                      selectedProduct._id || ""
-                                    }`
+                            { <img
+                            src={`http://localhost:8080/images/${selectedProduct.imageName}`}
+                            alt={selectedProduct.name}
+                            className="w-16 h-16 rounded-lg object-cover mr-3 border border-gray-200 bg-white"
+                            style={{
+                              minWidth: 100,
+                              minHeight: 100,
+                              maxWidth: 64,
+                              maxHeight: 64,
+                            }}
+                            onError={(e) => {
+                              const target = e.currentTarget;
+                              // Only set fallback if the image is not already the fallback
+                              const fallback = `https://readdy.ai/api/search-image?query=generic%20product%20placeholder%20on%20white%20background%2C%20product%20photography%20style%2C%20clean%20minimal%20aesthetic&width=100&height=100&orientation=squarish&ts=${
+                                selectedProduct._id || ""
+                              }`;
+                              if (!target.dataset.fallback) {
+                                target.src = fallback;
+                                target.dataset.fallback = "true";
                               }
-                              alt={selectedProduct.name}
-                              className="w-56 h-56 object-cover rounded-xl border border-gray-200 bg-white"
-                              onError={(e) => {
-                                const target = e.currentTarget;
-                                const fallback = `https://readdy.ai/api/search-image?query=generic%20product%20placeholder%20on%20white%20background%2C%20product%20photography%20style%2C%20clean%20minimal%20aesthetic&width=100&height=100&orientation=squarish&ts=${
-                                  selectedProduct._id || ""
-                                }`;
-                                if (!target.dataset.fallback) {
-                                  target.src = fallback;
-                                  target.dataset.fallback = "true";
-                                }
-                              }}
-                            />
+                            }}
+                          /> }
                           </div>
                           <div className="flex-1 flex flex-col justify-center text-lg">
                             <div className="mb-4">
