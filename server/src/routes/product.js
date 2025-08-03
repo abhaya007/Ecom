@@ -30,11 +30,15 @@ productRouter.post('/products', upload.single('uploadedFiles'), async (req, res)
 // Get all products
 productRouter.get('/products', async (req, res) => {
   try {
-    const products = await Product.find();
-    res.status(200).json({ success: true, products });
+    const totalDbProducts = await Product.countDocuments();
+    const products = await Product.find()
+    .skip((req.query.page - 1) * req.query.pageSize)
+    .limit(parseInt(req.query.pageSize));
+    res.status(200).json({ success: true, products, totalDbProducts });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Error', error: err });
   }
+  
 });
 
 // Update product
