@@ -2,7 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
 import Image from "next/image";
+
 
 type Category = {
   _id?: string;
@@ -28,8 +40,106 @@ type Product = {
 };
 
 export default function ProductsPage() {
+
+  const [totalPages, setTotalPages] = useState(4);
+  const[page,setPage]=useState(1)
   const [categories, setCategories] = useState<Category[]>([]);
   const router = useRouter();
+
+      // Pagination logic with ellipses
+    const generatePaginationItems = () => {
+      const items = []
+      const maxVisiblePages = 5
+      const halfVisible = Math.floor(maxVisiblePages / 2)
+  
+      let startPage = Math.max(1, page - halfVisible)
+      let endPage = Math.min(totalPages, page + halfVisible)
+  
+      // Adjust if we're near the beginning or end
+      if (endPage - startPage + 1 < maxVisiblePages) {
+        if (startPage === 1) {
+          endPage = Math.min(totalPages, startPage + maxVisiblePages - 1)
+        } else {
+          startPage = Math.max(1, endPage - maxVisiblePages + 1)
+        }
+      }
+
+      // Add first page and ellipsis if needed
+      if (startPage > 1) {
+        items.push(
+          <PaginationItem key="1">
+            <PaginationLink
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                setPage(1)
+              }}
+              className={page === 1 ? "bg-primary text-primary-foreground" : ""}
+            >
+              1
+            </PaginationLink>
+          </PaginationItem>,
+        )
+  
+        if (startPage > 2) {
+          items.push(
+            <PaginationItem key="ellipsis-start">
+              <PaginationEllipsis />
+            </PaginationItem>,
+          )
+        }
+      }
+
+      // Add visible page numbers
+      for (let i = startPage; i <= endPage; i++) {
+        items.push(
+          <PaginationItem key={i}>
+            <PaginationLink
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                setPage(i)
+              }}
+              className={page === i ? "bg-primary text-primary-foreground" : ""}
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>,
+        )
+      }
+
+      // Add ellipsis and last page if needed
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          items.push(
+            <PaginationItem key="ellipsis-end">
+              <PaginationEllipsis />
+            </PaginationItem>,
+          )
+        }
+  
+        items.push(
+          <PaginationItem key={totalPages}>
+            <PaginationLink
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                setPage(totalPages)
+              }}
+              className={page === totalPages ? "bg-primary text-primary-foreground" : ""}
+            >
+              {totalPages}
+            </PaginationLink>
+          </PaginationItem>,
+        )
+      }
+  
+      return items
+    }
+
+  
+
+
   // Fetch categories for dropdown
   useEffect(() => {
     fetch("http://localhost:8080/categories")
@@ -57,15 +167,16 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/products");
+        const res = await axios.get(`http://localhost:8080/products?pageSize=5&page=${page}`);
         setProducts(res.data.products);
+        setTotalPages(Math.ceil(res.data.totalDbProducts / 5 ))
       } catch (err) {
         toast.error("Failed to fetch products");
         console.error(err);
       }
     };
     fetchProducts();
-  }, []);
+  }, [page]);
 
   const [uplodedFiles, setUplodedFiles] = useState<File | null>(null);
 
@@ -518,7 +629,37 @@ export default function ProductsPage() {
                 </tbody>
               </table>
             </div>
-          </div>
+          
+            <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        if (page > 1) setPage(page - 1)
+                      }}
+                      className={page === 1 ? "pointer-events-none opacity-50" : ""}
+                    />
+                  </PaginationItem>
+
+                  {generatePaginationItems()}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        if (page < totalPages) setPage(page + 1)
+                      }}
+                      className={page === totalPages ? "pointer-events-none opacity-50" : ""}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination> 
+
+
+          </div> 
         </main>
       </div>
     </div>
