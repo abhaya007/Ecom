@@ -5,10 +5,20 @@ import userRouter from './routes/user.js'
 import dotenv from 'dotenv'
 import productRouter from './routes/product.js'
 import categoryRouter from './routes/category.js'
+import { createServer } from 'http'
+import { Server } from 'socket.io'
 dotenv.config()
 
-const app = express()
 const port = process.env.PORT
+const app = express()
+
+const httpServer = createServer(app)
+const io = new Server(httpServer, {cors: {origin: "*"}}) 
+
+
+io.on('connection', (socket) => {
+  console.log(socket.id)
+})
 
 app.use('/images',express.static('uploads')) 
 
@@ -21,6 +31,6 @@ app.use(categoryRouter)
 
 
 
-app.listen(port, () => {
+httpServer.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
